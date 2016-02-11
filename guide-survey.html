@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>TouchCommerce Routing Guide & Survey</title>
+<!-- CSS -->
+<link id="stylesheet" rel="stylesheet" type="text/css" href="./stylesheet.css">
+<!-- JS -->
+<script type="application/javascript">
+function loadBilling(){
+	document.getElementById("container").style.height = '625px';
+	document.getElementById("guide").style.display = "none";
+	document.getElementById("survey").style.display = "block";
+}
+function validate(){
+	var form_survey = document.forms["form_survey"];
+	var input_name = form_survey["full_name"];
+	var input_phone = form_survey["phone_number"];
+	var error_name = document.getElementById("error_name");
+	var error_phone1 = document.getElementById("error_phone1");
+	var error_phone2 = document.getElementById("error_phone2");
+	error_name.style.display="none";
+	error_phone1.style.display="none";
+	error_phone2.style.display="none";
+	
+	var valid = true;
+	var text = ""
+	if(input_name.value == null || input_name.value == ""){
+		input_name.className = "invalid";
+		error_name.style.display="block";
+		valid = false;
+	}else{
+		input_name.className="";
+	}
+	var phone_regex = /[0-9]{3}-[0-9]{3}-[0-9]{4}/g;
+	if(input_phone.value == ""){
+		input_phone.className = "invalid";
+		error_phone1.style.display="block";
+		valid = false;
+	}else if(!phone_regex.test((input_phone.value))){
+		input_phone.className = "invalid";
+		error_phone2.style.display="block";
+		valid = false;
+	} else{
+		input_phone.className="";
+	}
+	if(valid){
+		const CELEBRATE_MESSAGE = "<p class='title'>Congratulations!! You have reached the chat agent.</p>";
+		document.getElementById("survey").innerHTML = CELEBRATE_MESSAGE;
+		return false;
+	}else{ 
+		return false;
+	}
+}
+function stateSelect(){
+	var selected_state = document.getElementById("select_state").value;
+	document.getElementById("in_state").style.display="block";
+	document.getElementById("question").style.height="45px";
+}
+function celebrate(){
+	//
+	
+	alert("celebrate!");
+}</script>
+</head>
+<body>
+<div id="container" class="routingguide">
+  <header> <img id="bestbrands" src="./assets/logo-best-brands.png"/><img id="close" src="./assets/btn-close.png"/></header>
+  <main id="guide">
+    <nav><span>Home</span><span>Existing Service</span><span>Mobile</span></nav>
+    <p class="title">Which Mobile topic would you like help with?</p>
+    <section class="options">
+      <p onClick="loadBilling()"><img src="./assets/icon-billing.png"/><span>Billing and Payments</span></p>
+      <p> <img src="./assets/icon-tech-support.png"/><span>Technical Support</span></p>
+      <p> <img src="./assets/icon-login.png"/><span>Account Login Support</span></p>
+      <p> <img src="./assets/icon-other.png"/><span>Other</span></p>
+    </section>
+    <p class="back"> <img src="./assets/icon-back-button.png"/><span>Back</span></p>
+  </main>
+  <main id="survey" class="hidden">
+    <p class="title">Which Mobile topic would you like help with?</p>
+    <form name="form_survey" onsubmit="return validate()">
+      <label>Full Name:*</label>
+      <input id="full_name" name="full_name" placeholder="John Doe" type="text"/>
+      <div id="error_name" class="hidden error right small-text">Full Name is a required field.</div>
+      <label>Mobile Phone Number:*</label>
+      <input id="phone_number" name="phone_number" placeholder="ex: 123-123-1234" type="text"/>
+      <div id="error_phone1" class="hidden error right small-text">Mobile number is a required field.</div>
+      <div id="error_phone2" class="hidden error right small-text">Please enter a valid phone number.</div>
+      <label>State:</label>
+      <select onChange="stateSelect()" id="select_state">
+        <option value="Select one" disabled selected>Select one</option>
+        <option value="CA">California</option>
+      </select>
+      <label id="in_state" class="hidden">Was your phone purchased in CA?
+        <select>
+          <option value="Select one" disabled selected>Select one</option>
+        </select>
+      </label>
+      <label>Describe your question...</label>
+      <input id="question" type="text"/>
+      <div class="right">
+        <input type="submit" class="button" value="Start chat"/>
+        <div id="form_info" class="small-text"><span class="asterisk">*</span> Required field</div>
+      </div>
+    </form>
+  </main>
+  <footer><img id="poweredby" src="./assets/logo-tc.png"/></footer>
+</div>
+</body>
+</html>
